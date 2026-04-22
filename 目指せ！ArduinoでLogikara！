@@ -1,0 +1,83 @@
+/*
+ Name:		Waveshare_4_inch_Touchscreen.ino
+ Created:	2019-12-18 7:04:17 PM
+ Author:	Michael
+*/
+
+#include <Arduino.h>
+
+//#include <SPI.h>
+
+#include <Adafruit_GFX.h>
+#include <Waveshare4InchTftShield.h>
+
+
+// Assign human-readable names to some common 16-bit color values:
+#define	BLACK   0x0000
+#define	BLUE    0x001F
+#define	RED     0xF800
+#define	GREEN   0x07E0
+#define CYAN    0x07FF
+#define MAGENTA 0xF81F
+#define YELLOW  0xFFE0
+#define WHITE   0xFFFF
+
+
+namespace
+{
+	Waveshare4InchTftShield Waveshield;
+
+	//  Provide an alias so I don't have to search-and-replace all the code below.
+	Adafruit_GFX &tft = Waveshield;
+}
+
+
+
+void setup()
+{
+	Serial.begin(115200);
+	while (!Serial);
+
+	SPI.begin();
+	Waveshield.begin();
+}
+
+
+// the loop function runs over and over again until power down or reset
+void loop()
+{
+
+  		tft.fillScreen(BLACK);
+		tft.setTextColor(GREEN);
+		tft.setCursor(0, 0);
+		uint16_t wid = tft.width();
+		if (wid > 176)
+		{
+			tft.setTextSize(2);
+	//  Run the Adafruit tests.
+	//  We'll run using a different rotation to show that everything works!
+	tft.setRotation(2);
+	//runtests();
+
+	//  Run the smaller set that the original Waveshare driver did.  For comparison, the
+	//  original code ran in about 71 seconds on a Mega.
+	//tft.setRotation(0);
+	//RunSpeedTest();
+
+	//  Show how text prints under different rotations.
+	tft.fillScreen(BLUE);
+	
+		tft.print("Hello World! ");
+
+		delay(1000);
+	}
+
+	////tft.invertDisplay(true);
+	//delay(3000);
+//	tft.invertDisplay(false);
+
+	delay(3000);
+}
+
+
+
